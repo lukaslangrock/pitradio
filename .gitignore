@@ -1,9 +1,10 @@
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,visualstudiocode
-
+**/bin
+**/obj
 ### VisualStudioCode ###
-.vscode/*
+**/.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
