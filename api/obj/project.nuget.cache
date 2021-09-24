@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "Qvu7jOjxAZvPF2dUZhgv9XGMAuHBTGHDcIRz4j/gq3lmer1BcAh/ZNq5Iaq5cd0Ru9n+aQ6LzPyBOQVxAYHy8g==",
+  "success": true,
+  "projectFilePath": "/home/lukas/repos/pitradio/api/api.csproj",
+  "expectedPackageFiles": [
+    "/home/lukas/.nuget/packages/microsoft.extensions.apidescription.server/3.0.0/microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "/home/lukas/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
+    "/home/lukas/.nuget/packages/swashbuckle.aspnetcore/5.6.3/swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
+    "/home/lukas/.nuget/packages/swashbuckle.aspnetcore.swagger/5.6.3/swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
+    "/home/lukas/.nuget/packages/swashbuckle.aspnetcore.swaggergen/5.6.3/swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
+    "/home/lukas/.nuget/packages/swashbuckle.aspnetcore.swaggerui/5.6.3/swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512"
+  ],
+  "logs": []
+}
