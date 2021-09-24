@@ -1,16 +1,27 @@
 # pitradio
 
-A new Flutter project.
+Eine kommunale Radiostation für Daheim und Unterwegs.
 
-## Getting Started
+## Was ist es?
 
-This project is a starting point for a Flutter application.
+Wir wollen einen Raspberry Pi nutzen, um die Musikwünsche von unserer Freundesgruppe zu verwalten. Jeder hat die Möglichkeit Lieder in der Playlist hinzuzufügen und die anderen Songs zu "upvoten" und zu "downvoten". Die Playlist ist dann stets nach Anzahl der Anzahl von Upvotes minus Downvotes sortiert, damit beliebte Lieder zuerst abgespielt werden und unbeliebte weniger.
 
-A few resources to get you started if this is your first Flutter project:
+## Wer arbeitet daran?
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### App-Fernbedienung
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Aaron Laeseke
+
+Jakob Priemer
+
+### Radio-Gerät
+
+Damian Lee Webster
+
+Noah Gertze
+
+Lukas Langrock
+
+Finn Faltis
+
+Leon Wilzer
