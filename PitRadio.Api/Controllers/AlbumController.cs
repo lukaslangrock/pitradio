@@ -22,16 +22,28 @@ namespace PitRadio.Api.Controllers
             return _albumRepository.GetAllAlbums();
         }
 
-        [HttpGet(nameof(GetAlbumBySong) + "/{songname}")]
-        public Album GetAlbumBySong(string songname)
+        [HttpGet(nameof(GetAlbumBySongName) + "/{name}")]
+        public Album GetAlbumBySongName(string name)
         {
-            return _albumRepository.GetAlbumBySong(songname);
+            return _albumRepository.GetAlbumBySongName(name);
         }
 
-        [HttpGet(nameof(GetAlbumByUUID) + "/{uuid}")]
-        public Album GetAlbumByUUID(string uuid)
+        [HttpGet(nameof(GetAlbumBySongUUID) + "/{uuid}")]
+        public Album GetAlbumBySongUUID(string uuid)
         {
-            return _albumRepository.GetAlbumByUUID(uuid);
+            return _albumRepository.GetAlbumBySongUUID(uuid);
+        }
+
+        [HttpGet(nameof(GetAlbumByAlbumName) + "/{name}")]
+        public Album GetAlbumByAlbumName(string name)
+        {
+            return _albumRepository.GetAlbumByAlbumName(name);
+        }
+
+        [HttpGet(nameof(GetAlbumByAlbumUUID) + "/{uuid}")]
+        public Album GetAlbumByAlbumUUID(string uuid)
+        {
+            return _albumRepository.GetAlbumByAlbumUUID(uuid);
         }
     }
 }

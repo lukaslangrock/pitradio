@@ -6,7 +6,9 @@ namespace PitRadio.Api.Data.Repository
     public interface IAlbumRepository
     {
         IEnumerable<Album> GetAllAlbums();
-        Album GetAlbumBySong(string songname);
-        Album GetAlbumByUUID(string uuid);
+        Album GetAlbumBySongName(string songname);
+        Album GetAlbumBySongUUID(string uuid);
+        Album GetAlbumByAlbumName(string songname);
+        Album GetAlbumByAlbumUUID(string uuid);
     }
 }

@@ -22,14 +22,23 @@ namespace PitRadio.Api.Data.Repository
             return _albums;
         }
 
-        public Album GetAlbumBySong(string songname)
+        public Album GetAlbumBySongName(string name)
         {
-            return _albums.FirstOrDefault(album => album.Songs.FirstOrDefault(song => song.Title == songname) != default(Song));
+            return _albums.FirstOrDefault(album => album.Songs.FirstOrDefault(song => song.Title == name) != default(Song));
         }
 
-        public Album GetAlbumByUUID(string uuid)
+        public Album GetAlbumBySongUUID(string uuid)
         {
-            return _albums.FirstOrDefault(album => album.Songs.FirstOrDefault(song => song.Title == uuid) != default(Song));
+            return _albums.FirstOrDefault(album => album.Songs.FirstOrDefault(song => song.UUID == uuid) != default(Song));
+        }
+        public Album GetAlbumByAlbumName(string name)
+        {
+            return _albums.FirstOrDefault(album => album.Title == name);
+        }
+
+        public Album GetAlbumByAlbumUUID(string uuid)
+        {
+            return _albums.FirstOrDefault(album => album.UUID == uuid);
         }
     }
 }
