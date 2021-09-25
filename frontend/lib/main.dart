@@ -1,4 +1,10 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'package:mdi/mdi.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,13 +57,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _count = 0;
-  final List<String> _songs = [];
+  final List<Song> _songs = [];
   final List<bool?> _pressed = [];
 
-  void _addSong() {
+  void _addSong(Song song) {
     setState(() {
       _count += 1;
-      _songs.add("new");
+      _songs.add(song);
       _pressed.add(null);
     });
   }
@@ -96,21 +102,29 @@ class _MyHomePageState extends State<MyHomePage> {
           type: MaterialType.card,
         ),
       ),
-      body: _body(),
+      body: _body(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addSong,
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return AddSongModal(
+                  onInput: _addSong,
+                );
+              });
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
-  Widget _body() {
+  Widget _body(BuildContext context) {
     return ListView.builder(
       itemBuilder: (context, index) {
         return ListTile(
           leading: Image.network("https://files.catbox.moe/3j0lpp.jpg"),
-          title: Text(_songs[index]),
+          title: Text(_songs[index].name),
           subtitle: Row(
             children: [Text("Submitted by "), Text("Aaron")],
           ),
@@ -146,5 +160,143 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       itemCount: _count,
     );
+  }
+}
+
+class Song {
+  Song({required this.name, required this.author, required this.thumbnailUrl});
+
+  final String name;
+  final String author;
+  final String thumbnailUrl;
+}
+
+typedef SongCallback = void Function(Song);
+
+class AddSongModal extends StatelessWidget {
+  const AddSongModal({Key? key, this.onInput}) : super(key: key);
+
+  final SongCallback? onInput;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListTile(
+          title: Text("Add a new song",
+              style: Theme.of(context).textTheme.headline6),
+        ),
+        ListTile(
+          leading: const Icon(Mdi.youtube),
+          title: const Text("YouTube"),
+          onTap: () async {
+            Navigator.pop(context);
+
+            Future dialog = showDialog(
+              context: context,
+              builder: (context) {
+                return PasteYouTubeLink(
+                  onInput: onInput,
+                );
+              },
+            );
+          },
+        ),
+        ListTile(
+          leading: const Icon(Mdi.spotify),
+          title: const Text("Spotify"),
+          onTap: () {},
+        )
+      ],
+    );
+  }
+}
+
+class PasteYouTubeLink extends StatefulWidget {
+  const PasteYouTubeLink({Key? key, this.onInput}) : super(key: key);
+
+  final SongCallback? onInput;
+
+  @override
+  State<PasteYouTubeLink> createState() => _PasteYouTubeLinkState();
+}
+
+class _PasteYouTubeLinkState extends State<PasteYouTubeLink> {
+  bool _warningShown = false;
+  final TextEditingController controller = TextEditingController(text: "");
+  final RegExp _regex = RegExp(
+    r"^\s*(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu.be\/)([\w-]+)(?:[&?][\w=\.]+)*\s*$",
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Paste YouTube video link"),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: controller,
+            decoration: const InputDecoration(hintText: "Paste link..."),
+          ),
+          Visibility(
+            visible: _warningShown,
+            child: const ListTile(
+              title: Text(
+                "Invalid link!",
+                style:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
+        ],
+      ),
+      actions: [
+        TextButton(
+            onPressed: () async {
+              ClipboardData? data = await Clipboard.getData('text/plain');
+              if (data != null) {
+                controller.text = data.text!;
+              }
+            },
+            child: const Text("PASTE")),
+        TextButton(
+            onPressed: () async {
+              RegExpMatch? match = _regex.firstMatch(controller.text);
+              if (match != null) {
+                Song song = await _getSong(match.group(1)!);
+
+                if (widget.onInput != null) {
+                  widget.onInput!(song);
+                }
+
+                Navigator.pop(context);
+              } else {
+                setState(() {
+                  _warningShown = true;
+                });
+              }
+            },
+            child: const Text("OK")),
+      ],
+    );
+  }
+
+  Future<Song> _getSong(String id) async {
+    Uri uri = Uri.parse(
+        "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=$id&format=json");
+    http.Response response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      dynamic json = jsonDecode(response.body);
+      return Song(
+        name: json['title'],
+        author: json['author_name'],
+        thumbnailUrl: json['thumbnail_url'],
+      );
+    } else {
+      throw Exception('Failed to load video');
+    }
   }
 }
