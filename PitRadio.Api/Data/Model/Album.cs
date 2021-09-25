@@ -5,12 +5,13 @@ namespace PitRadio.Api.Data.Model
 {
     public class Album
     {
-        public Album(string title, ushort year, string artist, IEnumerable<Song> songs)
+        public Album(string title, ushort year, string artist, string folder, IEnumerable<Song> songs)
         {
             UUID = Guid.NewGuid().ToString();
             Title = title;
             Year = year;
             Artist = artist;
+            Folder = folder;
             Songs = songs;
         }
 
@@ -18,6 +19,7 @@ namespace PitRadio.Api.Data.Model
         public string Title { get; }
         public ushort Year { get; }
         public string Artist { get; }
+        public string Folder { get; }
         public IEnumerable<Song> Songs { get; }
     }
 }
