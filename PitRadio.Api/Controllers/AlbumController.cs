@@ -28,7 +28,7 @@ namespace PitRadio.Api.Controllers
         [HttpGet(nameof(GetAlbumBySong) + "/{songname}")]
         public Album GetAlbumBySong(string songname)
         {
-            return _albumRepository.GetSong(songname);
+            return _albumRepository.GetAlbumBySong(songname);
         }
     }
 }
