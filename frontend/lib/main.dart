@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mdi/mdi.dart';
 import 'package:pitradio/song.dart';
+import 'package:pitradio/spotify.dart';
 import 'package:pitradio/youtube.dart';
 
 void main() {
@@ -351,7 +352,18 @@ class AddSongModal extends StatelessWidget {
         ListTile(
           leading: const Icon(Mdi.spotify),
           title: const Text("Spotify"),
-          onTap: () {},
+          onTap: () async {
+            Navigator.pop(context);
+
+            Future dialog = showDialog(
+              context: context,
+              builder: (context) {
+                return PasteSpotifyLink(
+                  onInput: onInput,
+                );
+              },
+            );
+          },
         )
       ],
     );
