@@ -19,19 +19,19 @@ namespace Gpio
                 // GPIO lesen
                 if (mDown.Read() == true)
                 {
-                    Console.WriteLine("mDown")
+                    Console.WriteLine("mDown");
                 }
                 if (next.Read() == true)
                 {
-                    Console.WriteLine("next")
+                    Console.WriteLine("next");
                 }
                 if (play.Read() == true)
                 {
-                    Console.WriteLine("play")
+                    Console.WriteLine("play");
                 }
                 if (back.Read() == true)
                 {
-                    Console.WriteLine("back")
+                    Console.WriteLine("back");
                 }
             }
         }
