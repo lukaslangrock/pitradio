@@ -1,0 +1,150 @@
+﻿[
+  {
+    "title": "Ideas",
+    "year": 2020,
+    "artist": "Au/Ra",
+    "folder": "aura_ideas_2020",
+    "songs": [
+      {
+        "title": "Ideas",
+        "file": "01_ideas.opus"
+      }
+    ]
+  },
+  {
+    "title": "Out of the Blue",
+    "year": 2012,
+    "artist": "Electric Light Orchestra",
+    "folder": "clectriclightorchestra_mrbluesky_2012",
+    "songs": [
+      {
+        "title": "Mr. Blue Sky",
+        "file": "01_mr_blue_sky.opus"
+      }
+    ]
+  },
+  {
+    "title": "Fukashigi no Karte",
+    "year": 2018,
+    "artist": "Mai Sakurajima",
+    "folder": "maisakurajima_fukashiginocarte(不可思議のカルテ)_2018",
+    "songs": [
+      {
+        "title": "Fukashigi no Karte",
+        "file": "01_不可思議のカルテ.opus"
+      }
+    ]
+  },
+  {
+    "title": "KISS OF DEATH (Produced by HYDE)",
+    "year": 2018,
+    "artist": "Mika Nakashima",
+    "folder": "mikanakashima_kissofdeath_2018",
+    "songs": [
+      {
+        "title": "KISS OF DEATH",
+        "file": "01_kiss_of_death.opus"
+      }
+    ]
+  },
+  {
+    "title": "Supernatural Mobs",
+    "year": 2013,
+    "artist": "TheAtlanticCraft",
+    "folder": "theatlanticcraft_supernaturalmobs_2013",
+    "songs": [
+      {
+        "title": "Supernatural Mobs",
+        "file": "01_supernatural_mobs.opus"
+      }
+    ]
+  },
+  {
+    "title": "Fly Away",
+    "year": 2017,
+    "artist": "TheFatRat",
+    "folder": "thefatrat_flyaway_2017",
+    "songs": [
+      {
+        "title": "Fly Away",
+        "file": "01_fly_away.opus"
+      }
+    ]
+  },
+  {
+    "title": "Unity",
+    "year": 2017,
+    "artist": "TheFatRat",
+    "folder": "thefatrat_unity_2015",
+    "songs": [
+      {
+        "title": "Unity",
+        "file": "01_unity.opus"
+      }
+    ]
+  },
+  {
+    "title": "After Hours",
+    "year": 2020,
+    "artist": "The Weeknd",
+    "folder": "theweekend_afterhours_2020",
+    "songs": [
+      {
+        "title": "Alone Again",
+        "file": "01_alone_again.opus"
+      },
+      {
+        "title": "Too Late",
+        "file": "02_too_late.opus"
+      },
+      {
+        "title": "Hardest To Love",
+        "file": "03_hardest_to_love.opus"
+      },
+      {
+        "title": "Scared To Live",
+        "file": "04_scared_to_live.opus"
+      },
+      {
+        "title": "Snowchild",
+        "file": "05_snowchild.opus"
+      },
+      {
+        "title": "Escape From LA",
+        "file": "06_escape_from_la.opus"
+      },
+      {
+        "title": "Heartless",
+        "file": "07_heartless.opus"
+      },
+      {
+        "title": "Faith",
+        "file": "08_faith.opus"
+      },
+      {
+        "title": "Blinding Lights",
+        "file": "09_blinding_lights.opus"
+      },
+      {
+        "title": "In Your Eyes",
+        "file": "10_in_your_eyes.opus"
+      },
+      {
+        "title": "Save Your Tears",
+        "file": "11_save_your_tears.opus"
+      },
+      {
+        "title": "Repeat After Me (Interlude)",
+        "file": "12_repeat_after_me.opus"
+      },
+      {
+        "title": "After Hours",
+        "file": "13_after_hours.opus"
+      },
+      {
+        "title": "Until I Bleed Out",
+        "file": "14_until_i_bleed_out.opus"
+      }
+    ]
+  }
+]
