@@ -9,12 +9,14 @@ namespace PitRadio.Api.Data.Model
     {
         public Album(string title, ushort year, string artist, IEnumerable<Song> songs)
         {
+            UUID = Guid.NewGuid();
             Title = title;
             Year = year;
             Artist = artist;
             Songs = songs;
         }
 
+        public string UUID { get; }
         public string Title { get; }
         public ushort Year { get; }
         public string Artist { get; }
