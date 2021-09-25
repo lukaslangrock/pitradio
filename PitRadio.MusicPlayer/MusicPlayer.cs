@@ -8,7 +8,7 @@ namespace PitRadio.MusicPlayer
 {
     public class MusicPlayer
     {
-        private ProcessStartInfo FplayStartInfo { get; set; } = new ProcessStartInfo { FileName = "ffplay" };
+        private ProcessStartInfo FfplayStartInfo { get; set; } = new ProcessStartInfo { FileName = "ffplay" };
         private ProcessStartInfo OpusinfoStartInfo { get; set; } = new ProcessStartInfo { FileName = "opusinfo", UseShellExecute = false, RedirectStandardOutput = true, CreateNoWindow = true };
 
         private static Regex Regex { get; set; } = new Regex("Playback length: (.*)");
@@ -27,8 +27,8 @@ namespace PitRadio.MusicPlayer
             SongDuration = GetSongDuration(filePath);
             ResetProcess();
 
-            FplayStartInfo.Arguments = filePath;
-            Process = new() { StartInfo = FplayStartInfo };
+            FfplayStartInfo.Arguments = filePath;
+            Process = new() { StartInfo = FfplayStartInfo };
             Process.Start();
 
             StartTime = DateTime.Now;
