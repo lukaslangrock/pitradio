@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PitRadio.Api.Data.Model;
 using PitRadio.Api.Data.Repository;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PitRadio.Api.Controllers
 {
