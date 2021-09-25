@@ -2,8 +2,7 @@ import json
 import codecs
 import time
 import os
-import sys
-import numpy as np
+import syst
 
 cstate = str(sys.argv[1])
 cname = sys.argv[2]
@@ -13,9 +12,9 @@ ctime = sys.argv[5]
 
 
 def updateSong():
-    os.system('cls' if os.name == 'nt' else 'clear') 
+    os.system('cls' if os.name == 'nt' else 'clear')
+    time.sleep(0.5)
     print("\n" + cname + "\n" + cinterpret)
-    progressBar(0,clength)
 
 
 def progressBar(current, total, barLength = 25):
