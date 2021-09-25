@@ -2,7 +2,7 @@ import json
 import codecs
 import time
 import os
-import syst
+import sys
 
 cstate = str(sys.argv[1])
 cname = sys.argv[2]
