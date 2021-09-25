@@ -45,5 +45,19 @@ namespace PitRadio.Api.Controllers
         {
             return _albumRepository.GetAlbumByAlbumUUID(uuid);
         }
+
+        [HttpGet(nameof(GetAlbumArtworkByAlbumName) + "/{name}")]
+        public IActionResult GetAlbumArtworkByAlbumName(string name)
+        {
+            byte[] b = _albumRepository.GetAlbumArtworkByAlbumName(name);
+            return File(b, "image/jpeg");
+        }
+
+        [HttpGet(nameof(GetAlbumArtworkByAlbumUUID) + "/{uuid}")]
+        public IActionResult GetAlbumArtworkByAlbumUUID(string uuid)
+        {
+            byte[] b = _albumRepository.GetAlbumArtworkByAlbumUUID(uuid);
+            return File(b, "image/jpeg");
+        }
     }
 }
