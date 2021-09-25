@@ -71,9 +71,26 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _count = 0;
+  String _name = "";
   final List<Song> _songs = [];
   final List<bool?> _pressed = [];
   bool enableVoteSwipe = false;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return NameDialog(
+            onEnter: (name) {
+              _name = name;
+            },
+          );
+        },
+      );
+    });
+  }
 
   void _addSong(Song song) {
     setState(() {
@@ -183,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   "Submitted by ",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text("Someone" + index.toString()),
+                Text(_name),
               ],
             ),
             trailing: Row(
@@ -261,6 +278,42 @@ class _MyHomePageState extends State<MyHomePage> {
     if (voteState == true) return Colors.green.withOpacity(0.25);
     if (voteState == false) return Colors.red.withOpacity(0.25);
     return null;
+  }
+}
+
+typedef NameCallback = void Function(String);
+
+class NameDialog extends StatefulWidget {
+  const NameDialog({Key? key, this.onEnter}) : super(key: key);
+
+  final NameCallback? onEnter;
+
+  @override
+  State<NameDialog> createState() => _NameDialogState();
+}
+
+class _NameDialogState extends State<NameDialog> {
+  final TextEditingController _controller = TextEditingController(text: "");
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Please enter your name."),
+      content: TextField(
+        controller: _controller,
+        decoration: const InputDecoration(hintText: "Enter name..."),
+      ),
+      actions: [
+        TextButton(
+            onPressed: () async {
+              if (widget.onEnter != null) {
+                widget.onEnter!(_controller.text);
+              }
+              Navigator.pop(context);
+            },
+            child: const Text("OK")),
+      ],
+    );
   }
 }
 
