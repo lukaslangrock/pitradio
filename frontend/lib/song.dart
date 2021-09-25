@@ -1,9 +1,18 @@
-class Song {
-  Song({required this.name, required this.author, required this.thumbnailUrl});
+import 'package:json_annotation/json_annotation.dart';
 
-  final String name;
-  final String author;
-  final String thumbnailUrl;
+part 'song.g.dart';
+
+@JsonSerializable()
+class Song {
+  Song({required this.title, required this.file});
+
+  final String title;
+  final String file;
+  // final String author;
+  // final String thumbnailUrl;
+
+  factory Song.fromJson(Map<String, dynamic> json) => _$SongFromJson(json);
+  Map<String, dynamic> toJson() => _$SongToJson(this);
 }
 
 typedef SongCallback = void Function(Song);
