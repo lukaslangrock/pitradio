@@ -411,3 +411,6 @@ FodyWeavers.xsd
 
 # ignore obj/
 **/obj/
+
+# ignore files for musicdb
+**/musicdb/
