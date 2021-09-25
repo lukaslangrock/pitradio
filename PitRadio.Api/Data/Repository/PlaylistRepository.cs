@@ -1,0 +1,34 @@
+﻿using PitRadio.Api.Data.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace PitRadio.Api.Data.Repository
+{
+    public class PlaylistRepository : IPlaylistRepository
+    {
+        private List<Song> Playlist;
+
+        public PlaylistRepository()
+        {
+            Playlist = new()
+            {
+                new Song("test1", "test1"),
+                new Song("test2", "test2"),
+                new Song("test3", "test3")
+
+            };
+        }
+
+        public IEnumerable<Song> GetSongsInQueue()
+        {
+            return Playlist;
+        }
+
+        public void AddSongToQueue(Song song)
+        {
+            Playlist.Add(song);
+        }
+    }
+}
