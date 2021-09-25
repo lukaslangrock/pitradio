@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mdi/mdi.dart';
+import 'package:pitradio/song.dart';
+import 'package:pitradio/youtube.dart';
 
 void main() {
   runApp(const MyApp());
@@ -67,14 +71,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _count = 0;
-  final List<String> _songs = [];
+  final List<Song> _songs = [];
   final List<bool?> _pressed = [];
   bool enableVoteSwipe = false;
 
-  void _addSong() {
+  void _addSong(Song song) {
     setState(() {
       _count += 1;
-      _songs.add("new");
+      _songs.add(song);
       _pressed.add(null);
     });
   }
@@ -122,16 +126,24 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 12,
         type: MaterialType.card,
       ),
-      body: _body(),
+      body: _body(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addSong,
         tooltip: 'Add song',
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return AddSongModal(
+                  onInput: _addSong,
+                );
+              });
+        },
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
-  Widget _body() {
+  Widget _body(BuildContext context) {
     return ListView.builder(
       itemBuilder: (context, index) {
         var voteState = _pressed[index];
@@ -141,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
         return ListTile(
           leading: Image.network("https://files.catbox.moe/3j0lpp.jpg"),
-          title: Text(_songs[index]),
+          title: Text(_songs[index].name),
           subtitle: Row(
             children: [
               const Text(
@@ -236,5 +248,45 @@ class _MyHomePageState extends State<MyHomePage> {
     if (vote == false) return -1;
 
     return 0;
+  }
+}
+
+class AddSongModal extends StatelessWidget {
+  const AddSongModal({Key? key, this.onInput}) : super(key: key);
+
+  final SongCallback? onInput;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListTile(
+          title: Text("Add a new song",
+              style: Theme.of(context).textTheme.headline6),
+        ),
+        ListTile(
+          leading: const Icon(Mdi.youtube),
+          title: const Text("YouTube"),
+          onTap: () async {
+            Navigator.pop(context);
+
+            Future dialog = showDialog(
+              context: context,
+              builder: (context) {
+                return PasteYouTubeLink(
+                  onInput: onInput,
+                );
+              },
+            );
+          },
+        ),
+        ListTile(
+          leading: const Icon(Mdi.spotify),
+          title: const Text("Spotify"),
+          onTap: () {},
+        )
+      ],
+    );
   }
 }
