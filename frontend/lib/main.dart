@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -68,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _count = 0;
   final List<String> _songs = [];
   final List<bool?> _pressed = [];
+  bool enableVoteSwipe = false;
 
   void _addSong() {
     setState(() {
@@ -79,34 +81,51 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Duration startTime = Duration(seconds: 5);
+    Duration finishTime = Duration(seconds: 30, minutes: 1);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
         centerTitle: true,
       ),
-      bottomNavigationBar: SizedBox(
-        height: 69,
-        child: Material(
-          borderOnForeground: true,
-          child: Column(
-            children: [
-              ListTile(
-                  title: Text("Hawaii: Part II"),
-                  subtitle: Text("Miracle Musical"),
-                  leading: Image.network(
-                      "https://images.genius.com/18635e806e01f2162088f4fd18cfa96c.1000x1000x1.jpg")),
-              LinearProgressIndicator(),
-            ],
-          ),
-          borderRadius: BorderRadius.zero,
-          elevation: 12,
-          type: MaterialType.card,
+      bottomNavigationBar: Material(
+        borderOnForeground: true,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+                title: Text("Hawaii: Part II"),
+                subtitle: Text("Miracle Musical"),
+                leading: Image.network(
+                    "https://images.genius.com/18635e806e01f2162088f4fd18cfa96c.1000x1000x1.jpg"),
+                trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Text(
+                    "0:05",
+                    style: GoogleFonts.robotoMono(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "/",
+                    style: GoogleFonts.robotoMono(),
+                  ),
+                  Text(
+                    "1:30",
+                    style: GoogleFonts.robotoMono(fontWeight: FontWeight.bold),
+                  ),
+                ])),
+            LinearProgressIndicator(
+              value: startTime.inSeconds / finishTime.inSeconds,
+            ),
+          ],
         ),
+        borderRadius: BorderRadius.zero,
+        elevation: 12,
+        type: MaterialType.card,
       ),
       body: _body(),
       floatingActionButton: FloatingActionButton(
         onPressed: _addSong,
-        tooltip: 'Increment',
+        tooltip: 'Add song',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -115,43 +134,107 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _body() {
     return ListView.builder(
       itemBuilder: (context, index) {
+        var voteState = _pressed[index];
+        var isUpvoted = voteState == true;
+        var isDownvoted = voteState == false;
+        int votes = getVotes(voteState);
+
         return ListTile(
           leading: Image.network("https://files.catbox.moe/3j0lpp.jpg"),
           title: Text(_songs[index]),
           subtitle: Row(
-            children: [Text("Submitted by "), Text("Aaron")],
+            children: [
+              const Text(
+                "Submitted by ",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text("Someone" + index.toString()),
+            ],
           ),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(_pressed[index] == true
-                  ? "+1"
-                  : (_pressed[index] == false ? "-1" : "0")),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _pressed[index] = _pressed[index] == true ? null : true;
-                  });
+              if (votes != 0)
+                Text(votes.toString(), style: GoogleFonts.robotoMono()),
+              GestureDetector(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(getVoteIcon(voteState)),
+                ),
+                onTap: () {
+                  if (voteState != null) {
+                    setState(() {
+                      _pressed[index] = null;
+                    });
+                  }
                 },
-                icon: Icon(_pressed[index] == true
-                    ? Icons.thumb_up
-                    : Icons.thumb_up_outlined),
-              ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _pressed[index] = _pressed[index] == false ? null : false;
-                  });
+                onLongPressDown: (e) async {
+                  enableVoteSwipe = true;
+                  await HapticFeedback.vibrate();
+                  debugPrint("Vote start");
                 },
-                icon: Icon(_pressed[index] == false
-                    ? Icons.thumb_down
-                    : Icons.thumb_down_outlined),
+                onLongPressUp: () {
+                  enableVoteSwipe = false;
+                  debugPrint("Vote end");
+                },
+                onLongPressMoveUpdate: (e) {
+                  if (!enableVoteSwipe) {
+                    return;
+                  }
+
+                  const int swipeThreshold = 15;
+                  const int negativeSwipeThreshold = swipeThreshold * -1;
+
+                  if (e.offsetFromOrigin.dy > swipeThreshold) {
+                    setState(() {
+                      _pressed[index] = false;
+                    });
+                  } else if (e.offsetFromOrigin.dy < negativeSwipeThreshold) {
+                    setState(() {
+                      _pressed[index] = true;
+                    });
+                  }
+                },
               ),
+              // IconButton(
+              //   onPressed: () {
+              //     setState(() {
+              //       _pressed[index] = isUpvoted ? null : true;
+              //     });
+              //   },
+              //   icon:
+              //       Icon(isUpvoted ? Icons.thumb_up : Icons.thumb_up_outlined),
+              //   splashRadius: 24,
+              // ),
+              // IconButton(
+              //   onPressed: () {
+              //     setState(() {
+              //       _pressed[index] = isDownvoted ? null : false;
+              //     });
+              //   },
+              //   icon: Icon(
+              //       isDownvoted ? Icons.thumb_down : Icons.thumb_down_outlined),
+              //   splashRadius: 24,
+              // ),
             ],
           ),
         );
       },
       itemCount: _count,
     );
+  }
+
+  IconData getVoteIcon(bool? vote) {
+    if (vote == true) return Icons.thumb_up;
+    if (vote == false) return Icons.thumb_down;
+    return Icons.thumbs_up_down_outlined;
+  }
+
+  int getVotes(bool? vote) {
+    if (vote == true) return 1;
+
+    if (vote == false) return -1;
+
+    return 0;
   }
 }
