@@ -103,6 +103,23 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
+      bottomNavigationBar: SizedBox(
+        height: 69,
+        child: Material(
+          borderOnForeground: true,
+          child: Column(
+            children: [
+              ListTile(
+                  title: Text("Hawaii: Part II"),
+                  subtitle: Text("Miracle Musical"),
+                  leading: Image.network(
+                      "https://images.genius.com/18635e806e01f2162088f4fd18cfa96c.1000x1000x1.jpg")),
+              LinearProgressIndicator(),
+            ],
+          ),
+          borderRadius: BorderRadius.zero,
+          elevation: 12,
+          type: MaterialType.card,
         ),
       ),
       floatingActionButton: FloatingActionButton(
