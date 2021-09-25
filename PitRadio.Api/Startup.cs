@@ -27,7 +27,6 @@ namespace PitRadio.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -35,6 +34,7 @@ namespace PitRadio.Api
             });
 
             services.AddScoped<IAlbumRepository, AlbumRepository>();
+            services.AddSingleton<MusicPlayer.MusicPlayer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

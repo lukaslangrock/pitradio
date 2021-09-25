@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PitRadio.MusicPlayer\PitRadio.MusicPlayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Resources\musicdb.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
