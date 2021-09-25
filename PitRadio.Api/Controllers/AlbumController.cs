@@ -32,7 +32,7 @@ namespace PitRadio.Api.Controllers
         }
 
         [HttpGet(nameof(GetAlbumByUUID) + "/{uuid}")]
-        public Album GetAlbumBySong(string uuid)
+        public Album GetAlbumByUUID(string uuid)
         {
             return _albumRepository.GetAlbumByUUID(uuid);
         }

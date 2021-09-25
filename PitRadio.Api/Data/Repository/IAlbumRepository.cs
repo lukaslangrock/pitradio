@@ -10,5 +10,6 @@ namespace PitRadio.Api.Data.Repository
     {
         IEnumerable<Album> GetAllAlbums();
         Album GetAlbumBySong(string songname);
+        Album GetAlbumByUUID(string uuid);
     }
 }

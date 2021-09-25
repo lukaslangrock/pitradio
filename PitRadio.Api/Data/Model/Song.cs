@@ -9,7 +9,7 @@ namespace PitRadio.Api.Data.Model
     {
         public Song(string title, string file)
         {
-            UUID = Guid.NewGuid();
+            UUID = Guid.NewGuid().ToString();
             Title = title;
             File = file;
         }
