@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mdi/mdi.dart';
 import 'package:pitradio/api.dart';
 import 'package:pitradio/song.dart';
+import 'package:pitradio/spotify.dart';
 import 'package:pitradio/youtube.dart';
 
 late API api;
@@ -75,9 +76,26 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _count = 0;
+  String _name = "";
   final List<Song> _songs = [];
   final List<bool?> _pressed = [];
   bool enableVoteSwipe = false;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return NameDialog(
+            onEnter: (name) {
+              _name = name;
+            },
+          );
+        },
+      );
+    });
+  }
 
   void _addSong(Song song) {
     setState(() {
@@ -395,7 +413,18 @@ class AddSongModal extends StatelessWidget {
         ListTile(
           leading: const Icon(Mdi.spotify),
           title: const Text("Spotify"),
-          onTap: () {},
+          onTap: () async {
+            Navigator.pop(context);
+
+            Future dialog = showDialog(
+              context: context,
+              builder: (context) {
+                return PasteSpotifyLink(
+                  onInput: onInput,
+                );
+              },
+            );
+          },
         )
       ],
     );

@@ -1,6 +1,6 @@
 # PitRadio
 
-PitRadio is an IoT project as part of the [PIT-Hackathon](https://github.com/PIT-Hackathon) 2021.
+PitRadio is an IoT/App Develpment project as part of the [PIT-Hackathon](https://github.com/PIT-Hackathon) 2021.
 
 <img src="icon/icon.png" alt="project icon" width="200"/>
 
