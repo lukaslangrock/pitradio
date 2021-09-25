@@ -146,6 +146,28 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _body(BuildContext context) {
     return ListView.builder(
       itemBuilder: (context, index) {
+        switch (index) {
+          case 0:
+            return const Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 12,
+              ),
+              child: Text("NOW PLAYING"),
+            );
+
+          case 1:
+            index--;
+            break;
+
+          case 2:
+            return const Divider();
+
+          default:
+            index -= 2;
+            break;
+        }
+
         var voteState = _pressed[index];
         var isUpvoted = voteState == true;
         var isDownvoted = voteState == false;
@@ -232,7 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         );
       },
-      itemCount: _count,
+      itemCount: _count + 2,
     );
   }
 
