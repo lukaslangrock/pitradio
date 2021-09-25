@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,10 +11,35 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      themeMode: ThemeMode.dark,
-      theme: ThemeData(
+    const primarySwatch = MaterialColor(
+      0xFFDE3639,
+      {
+        50: Color(0xfffeebee),
+        100: Color(0xfffcccd2),
+        200: Color(0xffea989b),
+        300: Color(0xffdf7174),
+        400: Color(0xffe85153),
+        500: Color(0xffed3f3a),
+        600: Color(0xffde3639),
+        700: Color(0xffcc2c33),
+        800: Color(0xffbf262c),
+        900: Color(0xffb01b20),
+      },
+    );
+
+    var themeData = ThemeData.from(
+      colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: primarySwatch,
+        accentColor: Colors.redAccent,
+        errorColor: Colors.purpleAccent,
+      ),
+    );
+
+    var darkThemeData = ThemeData.from(
+      colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: primarySwatch,
+        accentColor: Colors.redAccent,
+        errorColor: Colors.purpleAccent,
         brightness: Brightness.dark,
         // This is the theme of your application.
         //
@@ -25,7 +51,15 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+        backgroundColor: Colors.black,
+        cardColor: Colors.white10,
       ),
+    );
+    return MaterialApp(
+      title: 'PIT Radio',
+      themeMode: ThemeMode.system,
+      theme: themeData,
+      darkTheme: darkThemeData,
       home: const MyHomePage(title: 'PIT Radio'),
     );
   }
