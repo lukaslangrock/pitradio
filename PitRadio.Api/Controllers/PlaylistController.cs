@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PitRadio.Api.Data.Model;
+using PitRadio.Api.Data.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,19 +21,22 @@ namespace PitRadio.Api.Controllers
 
 		private IEnumerable<Song> _pastSongs;
 		private IEnumerable<Song> _comingSongs;
+		private AlbumController _albumController;
 		private Song _currentSong;
 
 		public PlaylistController()
 		{
 			_pastSongs = new List<Song>();
 			_comingSongs = new List<Song>();
+			_albumController = new AlbumController(new AlbumRepository());
+
 			_currentSong = null;
 		}
 
-		[HttpGet(nameof(AddVote))]
-		public void AddVote(Song song, bool vote)
+		[HttpGet(nameof(AddVote) + "/{filepath}")]
+		public void AddVote(string filepath, bool vote)
 		{
-			song = Playlist.ToList().Find(x => x.File == song.File);
+			Song song = Playlist.ToList().Find(x => x.File == filepath);
 			song.Votes.Add(vote);
 		}
 
@@ -48,10 +52,14 @@ namespace PitRadio.Api.Controllers
 			return _currentSong;
 		}
 
-		[HttpPost(nameof(AddSongToQueue))]
-		public void AddSongToQueue(Song song)
+		[HttpPost(nameof(AddSongToQueue) + "/{filepath}")]
+		public void AddSongToQueue(string filepath)
 		{
-			_comingSongs.Append(song);
+			_comingSongs.Append(GetSong(filepath));
+		}
+		private Song GetSong(string filepath)
+		{
+			return _albumController.GetAlbumBySong(filepath).Songs.ToList().Find(x => x.File == filepath);
 		}
 		private void UpdatePlaylist()
 		{

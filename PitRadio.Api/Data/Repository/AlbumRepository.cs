@@ -23,9 +23,9 @@ namespace PitRadio.Api.Data.Repository
             return _albums;
         }
 
-        public Album GetAlbumBySong(string songname)
+        public Album GetAlbumBySong(string filepath)
         {
-            return _albums.FirstOrDefault(album => album.Songs.FirstOrDefault(song => song.Title == songname) != default(Song));
+            return _albums.FirstOrDefault(album => album.Songs.FirstOrDefault(song => song.File == filepath) != default(Song));
         }
     }
 }
