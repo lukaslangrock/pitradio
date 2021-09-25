@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mdi/mdi.dart';
+import 'package:pitradio/api.dart';
 import 'package:pitradio/song.dart';
 import 'package:pitradio/youtube.dart';
 
+late API api;
+
 void main() {
+  api = API("http://172.16.3.150:5000/api");
   runApp(const MyApp());
 }
 
@@ -85,8 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Duration startTime = Duration(seconds: 5);
-    Duration finishTime = Duration(seconds: 30, minutes: 1);
+    Duration startTime = const Duration(seconds: 5);
+    Duration finishTime = const Duration(seconds: 30, minutes: 1);
 
     return Scaffold(
       appBar: AppBar(
@@ -98,25 +102,34 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ListTile(
-                title: Text("Hawaii: Part II"),
-                subtitle: Text("Miracle Musical"),
-                leading: Image.network(
-                    "https://images.genius.com/18635e806e01f2162088f4fd18cfa96c.1000x1000x1.jpg"),
-                trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Text(
-                    "0:05",
-                    style: GoogleFonts.robotoMono(fontWeight: FontWeight.bold),
+            FutureBuilder(
+              future: api.getCurrentSong(),
+              builder: (builder, AsyncSnapshot<Song> snapshot) {
+                if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+
+                return ListTile(
+                  title: Text(snapshot.data!.title),
+                  leading: Image.network(
+                    "https://images.genius.com/18635e806e01f2162088f4fd18cfa96c.1000x1000x1.jpg",
                   ),
-                  Text(
-                    "/",
-                    style: GoogleFonts.robotoMono(),
+                  trailing: const TimeDisplay(
+                    current: "0:05",
+                    end: "0:30",
                   ),
-                  Text(
-                    "1:30",
-                    style: GoogleFonts.robotoMono(fontWeight: FontWeight.bold),
-                  ),
-                ])),
+                );
+              },
+            ),
             LinearProgressIndicator(
               value: startTime.inSeconds / finishTime.inSeconds,
             ),
@@ -131,12 +144,13 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Add song',
         onPressed: () {
           showModalBottomSheet(
-              context: context,
-              builder: (context) {
-                return AddSongModal(
-                  onInput: _addSong,
-                );
-              });
+            context: context,
+            builder: (context) {
+              return AddSongModal(
+                onInput: _addSong,
+              );
+            },
+          );
         },
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -144,103 +158,121 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _body(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        switch (index) {
-          case 0:
-            return const Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 12,
+    return FutureBuilder(
+        future: api.getQueue(),
+        builder: (builder, AsyncSnapshot<List<Song>> snapshot) {
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
+
+          if (!snapshot.hasData) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: CircularProgressIndicator(),
               ),
-              child: Text("NOW PLAYING"),
             );
+          }
 
-          case 1:
-            index--;
-            break;
-
-          case 2:
-            return const Divider();
-
-          default:
-            index -= 2;
-            break;
-        }
-
-        var voteState = _pressed[index];
-        int votes = getVotes(voteState);
-
-        return Dismissible(
-          key: ValueKey(index),
-          child: ListTile(
-            tileColor: getTileColor(voteState),
-            leading: Image.network(_songs[index].thumbnailUrl),
-            title: Text(_songs[index].name),
-            subtitle: Row(
-              children: [
-                const Text(
-                  "Submitted by ",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+          if (snapshot.data!.isEmpty) {
+            return Center(
+              child: Opacity(
+                opacity: .5,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Mdi.musicNoteOutline, size: 64),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.0),
+                      child: Text("No songs queued"),
+                    )
+                  ],
                 ),
-                Text("Someone" + index.toString()),
-              ],
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (votes != 0)
-                  Text(votes.toString(), style: GoogleFonts.robotoMono()),
-              ],
-            ),
-            onLongPress: () {
-              setState(() => _pressed[index] = null);
+              ),
+            );
+          }
+
+          return ListView.builder(
+            itemBuilder: (context, index) {
+              switch (index) {
+                case 0:
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 12,
+                    ),
+                    child: Text("NOW PLAYING"),
+                  );
+
+                case 1:
+                  index--;
+                  break;
+
+                case 2:
+                  return const Divider();
+
+                default:
+                  index -= 2;
+                  break;
+              }
+
+              var voteState = false;
+              //var voteState = _pressed[index];
+              int votes = getVotes(voteState);
+              Song song = snapshot.data![index];
+
+              return Dismissible(
+                key: ValueKey(index),
+                child: ListTile(
+                  tileColor: getTileColor(voteState),
+                  // leading: Image.network(_songs[index].thumbnailUrl),
+                  title: Text(song.title),
+                  subtitle: Row(
+                    children: [
+                      const Text(
+                        "Submitted by ",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text("Someone" + index.toString()),
+                    ],
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (votes != 0)
+                        Text(votes.toString(), style: GoogleFonts.robotoMono()),
+                    ],
+                  ),
+                  onLongPress: () {
+                    setState(() => _pressed[index] = null);
+                  },
+                ),
+                background: const VoteSwipeBackground(
+                  color: Colors.green,
+                  direction: true,
+                  icon: Icons.thumb_up,
+                  text: 'Like',
+                ),
+                secondaryBackground: const VoteSwipeBackground(
+                  color: Colors.red,
+                  direction: false,
+                  icon: Icons.thumb_down,
+                  text: 'Dislike',
+                ),
+                confirmDismiss: (direction) async {
+                  debugPrint(direction.toString());
+
+                  setState(() {
+                    _pressed[index] = direction == DismissDirection.startToEnd;
+                  });
+
+                  return false;
+                },
+              );
             },
-          ),
-          background: Container(
-            color: Colors.green,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: const [
-                  Icon(Icons.thumb_up),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text("Like"),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          secondaryBackground: Container(
-            color: Colors.red,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Text("Dislike"),
-                  ),
-                  Icon(Icons.thumb_down),
-                ],
-              ),
-            ),
-          ),
-          confirmDismiss: (direction) async {
-            debugPrint(direction.toString());
-
-            setState(() {
-              _pressed[index] = direction == DismissDirection.startToEnd;
-            });
-
-            return false;
-          },
-        );
-      },
-      itemCount: _count + 2,
-    );
+            itemCount: snapshot.data!.length + 2,
+          );
+        });
   }
 
   IconData getVoteIcon(bool? vote) {
@@ -261,6 +293,71 @@ class _MyHomePageState extends State<MyHomePage> {
     if (voteState == true) return Colors.green.withOpacity(0.25);
     if (voteState == false) return Colors.red.withOpacity(0.25);
     return null;
+  }
+}
+
+class TimeDisplay extends StatelessWidget {
+  const TimeDisplay({
+    Key? key,
+    required this.current,
+    required this.end,
+  }) : super(key: key);
+
+  final String current;
+  final String end;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      Text(
+        current,
+        style: GoogleFonts.robotoMono(fontWeight: FontWeight.bold),
+      ),
+      Text(
+        "/",
+        style: GoogleFonts.robotoMono(),
+      ),
+      Text(
+        end,
+        style: GoogleFonts.robotoMono(fontWeight: FontWeight.bold),
+      ),
+    ]);
+  }
+}
+
+class VoteSwipeBackground extends StatelessWidget {
+  const VoteSwipeBackground({
+    Key? key,
+    required this.icon,
+    required this.text,
+    required this.color,
+    required this.direction,
+  }) : super(key: key);
+
+  final IconData icon;
+  final String text;
+  final Color color;
+  final bool direction;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Row(
+          mainAxisAlignment:
+              direction ? MainAxisAlignment.start : MainAxisAlignment.end,
+          children: [
+            Icon(icon),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(text),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

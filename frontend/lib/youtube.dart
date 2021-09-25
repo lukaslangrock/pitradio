@@ -84,9 +84,9 @@ class _PasteYouTubeLinkState extends State<PasteYouTubeLink> {
     if (response.statusCode == 200) {
       dynamic json = jsonDecode(response.body);
       return Song(
-        name: json['title'],
-        author: json['author_name'],
-        thumbnailUrl: json['thumbnail_url'],
+        title: json['title'], file: '',
+        // author: json['author_name'],
+        // thumbnailUrl: json['thumbnail_url'],
       );
     } else {
       throw Exception('Failed to load video');
