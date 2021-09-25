@@ -169,89 +169,74 @@ class _MyHomePageState extends State<MyHomePage> {
         }
 
         var voteState = _pressed[index];
-        var isUpvoted = voteState == true;
-        var isDownvoted = voteState == false;
         int votes = getVotes(voteState);
 
-        return ListTile(
-          leading: Image.network("https://files.catbox.moe/3j0lpp.jpg"),
-          title: Text(_songs[index].name),
-          subtitle: Row(
-            children: [
-              const Text(
-                "Submitted by ",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text("Someone" + index.toString()),
-            ],
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (votes != 0)
-                Text(votes.toString(), style: GoogleFonts.robotoMono()),
-              GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(getVoteIcon(voteState)),
+        return Dismissible(
+          key: ValueKey(index),
+          child: ListTile(
+            tileColor: getTileColor(voteState),
+            leading: Image.network(_songs[index].thumbnailUrl),
+            title: Text(_songs[index].name),
+            subtitle: Row(
+              children: [
+                const Text(
+                  "Submitted by ",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                onTap: () {
-                  if (voteState != null) {
-                    setState(() {
-                      _pressed[index] = null;
-                    });
-                  }
-                },
-                onLongPressDown: (e) async {
-                  enableVoteSwipe = true;
-                  await HapticFeedback.vibrate();
-                  debugPrint("Vote start");
-                },
-                onLongPressUp: () {
-                  enableVoteSwipe = false;
-                  debugPrint("Vote end");
-                },
-                onLongPressMoveUpdate: (e) {
-                  if (!enableVoteSwipe) {
-                    return;
-                  }
-
-                  const int swipeThreshold = 15;
-                  const int negativeSwipeThreshold = swipeThreshold * -1;
-
-                  if (e.offsetFromOrigin.dy > swipeThreshold) {
-                    setState(() {
-                      _pressed[index] = false;
-                    });
-                  } else if (e.offsetFromOrigin.dy < negativeSwipeThreshold) {
-                    setState(() {
-                      _pressed[index] = true;
-                    });
-                  }
-                },
-              ),
-              // IconButton(
-              //   onPressed: () {
-              //     setState(() {
-              //       _pressed[index] = isUpvoted ? null : true;
-              //     });
-              //   },
-              //   icon:
-              //       Icon(isUpvoted ? Icons.thumb_up : Icons.thumb_up_outlined),
-              //   splashRadius: 24,
-              // ),
-              // IconButton(
-              //   onPressed: () {
-              //     setState(() {
-              //       _pressed[index] = isDownvoted ? null : false;
-              //     });
-              //   },
-              //   icon: Icon(
-              //       isDownvoted ? Icons.thumb_down : Icons.thumb_down_outlined),
-              //   splashRadius: 24,
-              // ),
-            ],
+                Text("Someone" + index.toString()),
+              ],
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (votes != 0)
+                  Text(votes.toString(), style: GoogleFonts.robotoMono()),
+              ],
+            ),
+            onLongPress: () {
+              setState(() => _pressed[index] = null);
+            },
           ),
+          background: Container(
+            color: Colors.green,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                children: const [
+                  Icon(Icons.thumb_up),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text("Like"),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          secondaryBackground: Container(
+            color: Colors.red,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: const [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Text("Dislike"),
+                  ),
+                  Icon(Icons.thumb_down),
+                ],
+              ),
+            ),
+          ),
+          confirmDismiss: (direction) async {
+            debugPrint(direction.toString());
+
+            setState(() {
+              _pressed[index] = direction == DismissDirection.startToEnd;
+            });
+
+            return false;
+          },
         );
       },
       itemCount: _count + 2,
@@ -270,6 +255,12 @@ class _MyHomePageState extends State<MyHomePage> {
     if (vote == false) return -1;
 
     return 0;
+  }
+
+  Color? getTileColor(bool? voteState) {
+    if (voteState == true) return Colors.green.withOpacity(0.25);
+    if (voteState == false) return Colors.red.withOpacity(0.25);
+    return null;
   }
 }
 
