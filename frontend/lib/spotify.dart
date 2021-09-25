@@ -88,9 +88,10 @@ class _PasteSpotifyLinkState extends State<PasteSpotifyLink> {
     if (response.statusCode == 200) {
       dynamic json = jsonDecode(response.body);
       return Song(
-        name: json['name'],
-        author: json['artists'][0]['name'],
-        thumbnailUrl: json['album']['images'][0]['url'],
+        title: json['name'],
+        file: '',
+        //author: json['artists'][0]['name'],
+        //thumbnailUrl: json['album']['images'][0]['url'],
       );
     } else {
       throw Exception('Failed to load song');
