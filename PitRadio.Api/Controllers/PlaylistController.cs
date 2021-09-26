@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PitRadio.Api.Data.Model;
 using PitRadio.Api.Data.Repository;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PitRadio.Api.Controllers
 {
@@ -13,10 +11,12 @@ namespace PitRadio.Api.Controllers
     public class PlaylistController : ControllerBase
     {
         private readonly IPlaylistRepository _playlistRepository;
+        private readonly IAlbumRepository _albumRepository;
 
-        public PlaylistController(IPlaylistRepository playlistRepository)
+        public PlaylistController(IPlaylistRepository playlistRepository, IAlbumRepository albumRepository)
         {
             _playlistRepository = playlistRepository;
+            _albumRepository = albumRepository;
         }
 
         [HttpGet(nameof(GetSongsInQueue))]
@@ -32,9 +32,9 @@ namespace PitRadio.Api.Controllers
         }
 
         [HttpPost(nameof(AddSongToQueue))]
-        public IEnumerable<Song> AddSongToQueue(Song song)
+        public IEnumerable<Song> AddSongToQueue(string uuid)
         {
-            _playlistRepository.AddSongToQueue(song);
+            _playlistRepository.AddSongToQueue(_albumRepository.GetSongBySongUUID(uuid));
             return _playlistRepository.GetSongsInQueue();
         }
     }

@@ -1,15 +1,17 @@
 ﻿using PitRadio.Api.Data.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PitRadio.Api.Data.Repository
 {
     public interface IAlbumRepository
     {
         IEnumerable<Album> GetAllAlbums();
-        Album GetAlbumBySong(string songname);
-        Album GetAlbumByUUID(string uuid);
+        Album GetAlbumBySongName(string songname);
+        Album GetAlbumBySongUUID(string uuid);
+        Album GetAlbumByAlbumName(string songname);
+        Album GetAlbumByAlbumUUID(string uuid);
+        byte[] GetAlbumArtworkByAlbumName(string songname);
+        byte[] GetAlbumArtworkByAlbumUUID(string uuid);
+        Song GetSongBySongUUID(string uuid);
     }
 }

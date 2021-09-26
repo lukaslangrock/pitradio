@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PitRadio.Api.Data.Model;
 using PitRadio.Api.Data.Repository;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PitRadio.Api.Controllers
 {
@@ -25,16 +22,42 @@ namespace PitRadio.Api.Controllers
             return _albumRepository.GetAllAlbums();
         }
 
-        [HttpGet(nameof(GetAlbumBySong) + "/{songname}")]
-        public Album GetAlbumBySong(string songname)
+        [HttpGet(nameof(GetAlbumBySongName) + "/{name}")]
+        public Album GetAlbumBySongName(string name)
         {
-            return _albumRepository.GetAlbumBySong(songname);
+            return _albumRepository.GetAlbumBySongName(name);
         }
 
-        [HttpGet(nameof(GetAlbumByUUID) + "/{uuid}")]
-        public Album GetAlbumByUUID(string uuid)
+        [HttpGet(nameof(GetAlbumBySongUUID) + "/{uuid}")]
+        public Album GetAlbumBySongUUID(string uuid)
         {
-            return _albumRepository.GetAlbumByUUID(uuid);
+            return _albumRepository.GetAlbumBySongUUID(uuid);
+        }
+
+        [HttpGet(nameof(GetAlbumByAlbumName) + "/{name}")]
+        public Album GetAlbumByAlbumName(string name)
+        {
+            return _albumRepository.GetAlbumByAlbumName(name);
+        }
+
+        [HttpGet(nameof(GetAlbumByAlbumUUID) + "/{uuid}")]
+        public Album GetAlbumByAlbumUUID(string uuid)
+        {
+            return _albumRepository.GetAlbumByAlbumUUID(uuid);
+        }
+
+        [HttpGet(nameof(GetAlbumArtworkByAlbumName) + "/{name}")]
+        public IActionResult GetAlbumArtworkByAlbumName(string name)
+        {
+            byte[] b = _albumRepository.GetAlbumArtworkByAlbumName(name);
+            return File(b, "image/jpeg");
+        }
+
+        [HttpGet(nameof(GetAlbumArtworkByAlbumUUID) + "/{uuid}")]
+        public IActionResult GetAlbumArtworkByAlbumUUID(string uuid)
+        {
+            byte[] b = _albumRepository.GetAlbumArtworkByAlbumUUID(uuid);
+            return File(b, "image/jpeg");
         }
     }
 }

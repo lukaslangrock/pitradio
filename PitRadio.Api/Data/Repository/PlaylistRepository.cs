@@ -1,14 +1,12 @@
-﻿using PitRadio.Api.Data.Model;
-using System;
+﻿using System;
+using PitRadio.Api.Data.Model;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PitRadio.Api.Data.Repository
 {
     public class PlaylistRepository : IPlaylistRepository
     {
-        private List<Song> Playlist = new() { new Song("test1", "test1"), new Song("test2", "test2"), new Song("test3", "test3") };
+        private List<Song> Playlist = new() { new Song(Guid.NewGuid().ToString(), "test1", "test1"), new Song(Guid.NewGuid().ToString(), "test2", "test2"), new Song(Guid.NewGuid().ToString(), "test3", "test3") };
 
         public PlaylistRepository()
         { }
