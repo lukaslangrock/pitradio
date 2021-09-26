@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mdi/mdi.dart';
+import 'package:pitradio/album.dart';
 import 'package:pitradio/api.dart';
 import 'package:pitradio/song.dart';
-import 'package:pitradio/spotify.dart';
-import 'package:pitradio/youtube.dart';
 
 late API api;
 
 void main() {
-  api = API("http://172.16.3.150:5000/api");
+  api = API("http://192.168.10.1:5000/api");
   runApp(const MyApp());
 }
 
@@ -370,46 +369,32 @@ class AddSongModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+    return ListView(
       children: [
         ListTile(
           title: Text("Add a new song",
               style: Theme.of(context).textTheme.headline6),
         ),
-        ListTile(
-          leading: const Icon(Mdi.youtube),
-          title: const Text("YouTube"),
-          onTap: () async {
-            Navigator.pop(context);
+        FutureBuilder(
+          future: api.getAllAlbums(),
+          builder: (context, AsyncSnapshot<List<Album>> snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-            Future dialog = showDialog(
-              context: context,
-              builder: (context) {
-                return PasteYouTubeLink(
-                  onInput: onInput,
-                );
-              },
-            );
+            return Column(children: [
+              for (var album in snapshot.data!)
+                for (var song in album.songs)
+                  ListTile(
+                      title: Text(album.artist + " - " + song.title),
+                      leading: Image.network(
+                        api.getAlbumArtworkByAlbumUUID(album.uuid),
+                        width: 48,
+                        height: 48,
+                      ))
+            ]);
           },
         ),
-        ListTile(
-          leading: const Icon(Mdi.spotify),
-          title: const Text("Spotify"),
-          onTap: () async {
-            Navigator.pop(context);
-
-            Future dialog = showDialog(
-              context: context,
-              builder: (context) {
-                return PasteSpotifyLink(
-                  onInput: onInput,
-                );
-              },
-            );
-          },
-        )
       ],
     );
   }
