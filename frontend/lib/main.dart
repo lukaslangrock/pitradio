@@ -6,6 +6,9 @@ import 'package:mdi/mdi.dart';
 import 'package:pitradio/api.dart';
 import 'package:pitradio/song.dart';
 import 'package:pitradio/spotify.dart';
+import 'package:pitradio/ui/add_song_modal.dart';
+import 'package:pitradio/ui/time_display.dart';
+import 'package:pitradio/ui/vote_swipe_background.dart';
 import 'package:pitradio/youtube.dart';
 
 late API api;
@@ -36,7 +39,6 @@ class MyApp extends StatelessWidget {
         900: Color(0xffb01b20),
       },
     );
-
     var themeData = ThemeData.from(
       colorScheme: ColorScheme.fromSwatch(
         primarySwatch: primarySwatch,
@@ -44,7 +46,6 @@ class MyApp extends StatelessWidget {
         errorColor: Colors.purpleAccent,
       ),
     );
-
     var darkThemeData = ThemeData.from(
       colorScheme: ColorScheme.fromSwatch(
         primarySwatch: primarySwatch,
@@ -75,31 +76,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _count = 0;
-  String _name = "";
   final List<Song> _songs = [];
   final List<bool?> _pressed = [];
   bool enableVoteSwipe = false;
 
-  @override
-  void initState() {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return NameDialog(
-            onEnter: (name) {
-              _name = name;
-            },
-          );
-        },
-      );
-    });
-  }
-
   void _addSong(Song song) {
     setState(() {
-      _count += 1;
       _songs.add(song);
       _pressed.add(null);
     });
@@ -114,6 +96,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
         centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
       ),
       bottomNavigationBar: Material(
         borderOnForeground: true,
@@ -149,8 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             LinearProgressIndicator(
-              value: startTime.inSeconds / finishTime.inSeconds,
-            ),
+                value: startTime.inSeconds / finishTime.inSeconds),
           ],
         ),
         borderRadius: BorderRadius.zero,
@@ -164,14 +147,80 @@ class _MyHomePageState extends State<MyHomePage> {
           showModalBottomSheet(
             context: context,
             builder: (context) {
-              return AddSongModal(
-                onInput: _addSong,
-              );
+              return AddSongModal(onInput: _addSong);
             },
           );
         },
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Widget _getListItem(BuildContext context, int index, List<Song> songs) {
+    switch (index) {
+      case 0:
+        return const Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 12,
+          ),
+          child: Text("NOW PLAYING"),
+        );
+
+      case 1:
+        index--;
+        break;
+
+      case 2:
+        return const Divider();
+
+      default:
+        index -= 2;
+        break;
+    }
+
+    bool? voteState;
+    // var voteState = _pressed[index];
+    int votes = getVotes(voteState);
+    Song song = songs[index];
+
+    return Dismissible(
+      key: ValueKey(index),
+      child: ListTile(
+        tileColor: getTileColor(voteState),
+        // leading: Image.network(_songs[index].thumbnailUrl),
+        title: Text(song.title),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (votes != 0)
+              Text(votes.toString(), style: GoogleFonts.robotoMono()),
+          ],
+        ),
+        onLongPress: () {
+          setState(() => _pressed[index] = null);
+        },
+      ),
+      background: const VoteSwipeBackground(
+        color: Colors.green,
+        direction: true,
+        icon: Icons.thumb_up,
+        text: 'Like',
+      ),
+      secondaryBackground: const VoteSwipeBackground(
+        color: Colors.red,
+        direction: false,
+        icon: Icons.thumb_down,
+        text: 'Dislike',
+      ),
+      confirmDismiss: (direction) async {
+        setState(() {
+          var isPositive = direction == DismissDirection.startToEnd;
+          _pressed[index] = isPositive;
+        });
+
+        return false;
+      },
     );
   }
 
@@ -211,92 +260,10 @@ class _MyHomePageState extends State<MyHomePage> {
           }
 
           return ListView.builder(
-            itemBuilder: (context, index) {
-              switch (index) {
-                case 0:
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 12,
-                    ),
-                    child: Text("NOW PLAYING"),
-                  );
-
-                case 1:
-                  index--;
-                  break;
-
-                case 2:
-                  return const Divider();
-
-                default:
-                  index -= 2;
-                  break;
-              }
-
-              var voteState = false;
-              //var voteState = _pressed[index];
-              int votes = getVotes(voteState);
-              Song song = snapshot.data![index];
-
-              return Dismissible(
-                key: ValueKey(index),
-                child: ListTile(
-                  tileColor: getTileColor(voteState),
-                  // leading: Image.network(_songs[index].thumbnailUrl),
-                  title: Text(song.title),
-                  subtitle: Row(
-                    children: [
-                      const Text(
-                        "Submitted by ",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text("Someone" + index.toString()),
-                    ],
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (votes != 0)
-                        Text(votes.toString(), style: GoogleFonts.robotoMono()),
-                    ],
-                  ),
-                  onLongPress: () {
-                    setState(() => _pressed[index] = null);
-                  },
-                ),
-                background: const VoteSwipeBackground(
-                  color: Colors.green,
-                  direction: true,
-                  icon: Icons.thumb_up,
-                  text: 'Like',
-                ),
-                secondaryBackground: const VoteSwipeBackground(
-                  color: Colors.red,
-                  direction: false,
-                  icon: Icons.thumb_down,
-                  text: 'Dislike',
-                ),
-                confirmDismiss: (direction) async {
-                  debugPrint(direction.toString());
-
-                  setState(() {
-                    _pressed[index] = direction == DismissDirection.startToEnd;
-                  });
-
-                  return false;
-                },
-              );
-            },
+            itemBuilder: (context, index) => _getListItem(context, index, snapshot.data!,),
             itemCount: snapshot.data!.length + 2,
           );
         });
-  }
-
-  IconData getVoteIcon(bool? vote) {
-    if (vote == true) return Icons.thumb_up;
-    if (vote == false) return Icons.thumb_down;
-    return Icons.thumbs_up_down_outlined;
   }
 
   int getVotes(bool? vote) {
@@ -311,122 +278,5 @@ class _MyHomePageState extends State<MyHomePage> {
     if (voteState == true) return Colors.green.withOpacity(0.25);
     if (voteState == false) return Colors.red.withOpacity(0.25);
     return null;
-  }
-}
-
-class TimeDisplay extends StatelessWidget {
-  const TimeDisplay({
-    Key? key,
-    required this.current,
-    required this.end,
-  }) : super(key: key);
-
-  final String current;
-  final String end;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(mainAxisSize: MainAxisSize.min, children: [
-      Text(
-        current,
-        style: GoogleFonts.robotoMono(fontWeight: FontWeight.bold),
-      ),
-      Text(
-        "/",
-        style: GoogleFonts.robotoMono(),
-      ),
-      Text(
-        end,
-        style: GoogleFonts.robotoMono(fontWeight: FontWeight.bold),
-      ),
-    ]);
-  }
-}
-
-class VoteSwipeBackground extends StatelessWidget {
-  const VoteSwipeBackground({
-    Key? key,
-    required this.icon,
-    required this.text,
-    required this.color,
-    required this.direction,
-  }) : super(key: key);
-
-  final IconData icon;
-  final String text;
-  final Color color;
-  final bool direction;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: color,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(
-          mainAxisAlignment:
-              direction ? MainAxisAlignment.start : MainAxisAlignment.end,
-          children: [
-            Icon(icon),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(text),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class AddSongModal extends StatelessWidget {
-  const AddSongModal({Key? key, this.onInput}) : super(key: key);
-
-  final SongCallback? onInput;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ListTile(
-          title: Text("Add a new song",
-              style: Theme.of(context).textTheme.headline6),
-        ),
-        ListTile(
-          leading: const Icon(Mdi.youtube),
-          title: const Text("YouTube"),
-          onTap: () async {
-            Navigator.pop(context);
-
-            Future dialog = showDialog(
-              context: context,
-              builder: (context) {
-                return PasteYouTubeLink(
-                  onInput: onInput,
-                );
-              },
-            );
-          },
-        ),
-        ListTile(
-          leading: const Icon(Mdi.spotify),
-          title: const Text("Spotify"),
-          onTap: () async {
-            Navigator.pop(context);
-
-            Future dialog = showDialog(
-              context: context,
-              builder: (context) {
-                return PasteSpotifyLink(
-                  onInput: onInput,
-                );
-              },
-            );
-          },
-        )
-      ],
-    );
   }
 }
