@@ -10,12 +10,7 @@ namespace PitRadio.Api.Data.Repository
 
         public PlaylistRepository()
         {
-            Playlist = new()
-            {
-                new Song("test1", "test1", Guid.NewGuid().ToString()),
-                new Song("test2", "test2", Guid.NewGuid().ToString()),
-                new Song("test3", "test3", Guid.NewGuid().ToString())
-            };
+            Playlist = new();
         }
 
         public IEnumerable<Song> GetSongsInQueue()
