@@ -4,8 +4,9 @@ part 'song.g.dart';
 
 @JsonSerializable()
 class Song {
-  Song({required this.title, required this.file});
+  Song({required this.title, required this.file, this.uuid});
 
+  final String? uuid;
   final String title;
   final String file;
   // final String author;
