@@ -6,13 +6,12 @@ using System.Text.RegularExpressions;
 
 namespace PitRadio.MusicPlayer
 {
-    public class MusicPlayer
+    public class MusicPlayer : IMusicPlayer
     {
-        private ProcessStartInfo FfplayStartInfo { get; set; } = new ProcessStartInfo { FileName = "ffplay" };
-        private ProcessStartInfo OpusinfoStartInfo { get; set; } = new ProcessStartInfo { FileName = "opusinfo", UseShellExecute = false, RedirectStandardOutput = true, CreateNoWindow = true };
-
         private static Regex Regex { get; set; } = new Regex("Playback length: (.*)");
 
+        private ProcessStartInfo FfplayStartInfo { get; set; } = new ProcessStartInfo { FileName = "ffplay" };
+        private ProcessStartInfo OpusinfoStartInfo { get; set; } = new ProcessStartInfo { FileName = "opusinfo", UseShellExecute = false, RedirectStandardOutput = true, CreateNoWindow = true };
         private Process Process { get; set; }
 
         public DateTime StartTime { get; private set; }
@@ -93,5 +92,15 @@ namespace PitRadio.MusicPlayer
         }
 
         private static double GetValueAsDouble(string[] input, string indicator) => double.Parse(input.First(elem => elem.EndsWith(indicator)).Replace(indicator, ""));
+
+        public void Pause()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Resume()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

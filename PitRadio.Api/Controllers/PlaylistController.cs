@@ -37,5 +37,14 @@ namespace PitRadio.Api.Controllers
             _playlistRepository.AddSongToQueue(_albumRepository.GetSongBySongUUID(uuid));
             return _playlistRepository.GetSongsInQueue();
         }
+
+        //[HttpPost(nameof(AddVoteToFirstSongOccurrence) + "/{uuid}/{vote}")]
+        //public Song AddVoteToFirstSongOccurrence(string uuid, bool vote)
+        //{
+        //    _playlistRepository.AddVoteToFirstSongOccurrence(uuid, vote);
+        //    if(!_playlistRepository.SkipCurrentSongIfNecessary())
+        //        _playlistRepository.RemoveSong(uuid);
+        //    return _playlistRepository.GetFirstSongInQueueByUuid(uuid);
+        //}
     }
 }
