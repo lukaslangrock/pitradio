@@ -12,5 +12,6 @@ namespace PitRadio.Api.Data.Repository
         Album GetAlbumByAlbumUUID(string uuid);
         byte[] GetAlbumArtworkByAlbumName(string songname);
         byte[] GetAlbumArtworkByAlbumUUID(string uuid);
+        Song GetSongBySongUUID(string uuid);
     }
 }

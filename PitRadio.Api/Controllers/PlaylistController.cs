@@ -12,10 +12,12 @@ namespace PitRadio.Api.Controllers
     {
         //private Queue<Song> Playlist { get; set; } = new Queue<Song>(new[] { new Song("test1", "test1"), new Song("test2", "test2"), new Song("test3", "test3") });
         private readonly IPlaylistRepository _playlistRepository;
+        private readonly IAlbumRepository _albumRepository;
 
-        public PlaylistController(IPlaylistRepository playlistRepository)
+        public PlaylistController(IPlaylistRepository playlistRepository, IAlbumRepository albumRepository)
         {
             _playlistRepository = playlistRepository;
+            _albumRepository = albumRepository;
         }
 
         [HttpGet(nameof(GetSongsInQueue))]
@@ -31,9 +33,9 @@ namespace PitRadio.Api.Controllers
         }
 
         [HttpPost(nameof(AddSongToQueue))]
-        public IEnumerable<Song> AddSongToQueue(Song song)
+        public IEnumerable<Song> AddSongToQueue(string uuid)
         {
-            _playlistRepository.AddSongToQueue(song);
+            _playlistRepository.AddSongToQueue(_albumRepository.GetSongBySongUUID(uuid));
             return _playlistRepository.GetSongsInQueue();
         }
     }
