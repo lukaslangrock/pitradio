@@ -27,7 +27,7 @@ namespace PitRadio.MusicPlayer
             SongDuration = GetSongDuration(filePath);
             ResetProcess();
 
-            FfplayStartInfo.Arguments = filePath;
+            FfplayStartInfo.Arguments = "-autoexit " + filePath;
             Process = new() { StartInfo = FfplayStartInfo };
             Process.Start();
 
