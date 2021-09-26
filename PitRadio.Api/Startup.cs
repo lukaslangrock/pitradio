@@ -34,7 +34,7 @@ namespace PitRadio.Api
             });
 
             services.AddScoped<IAlbumRepository, AlbumRepository>();
-            services.AddScoped<IPlaylistRepository, PlaylistRepository>();
+            services.AddSingleton<IPlaylistRepository, PlaylistRepository>();
             services.AddSingleton<MusicPlayer.MusicPlayer>();
         }
 

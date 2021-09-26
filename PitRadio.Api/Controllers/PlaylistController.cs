@@ -12,7 +12,6 @@ namespace PitRadio.Api.Controllers
     [ApiController]
     public class PlaylistController : ControllerBase
     {
-        //private Queue<Song> Playlist { get; set; } = new Queue<Song>(new[] { new Song("test1", "test1"), new Song("test2", "test2"), new Song("test3", "test3") });
         private readonly IPlaylistRepository _playlistRepository;
 
         public PlaylistController(IPlaylistRepository playlistRepository)

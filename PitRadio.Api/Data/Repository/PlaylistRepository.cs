@@ -8,18 +8,10 @@ namespace PitRadio.Api.Data.Repository
 {
     public class PlaylistRepository : IPlaylistRepository
     {
-        private List<Song> Playlist;
+        private List<Song> Playlist = new() { new Song("test1", "test1"), new Song("test2", "test2"), new Song("test3", "test3") };
 
         public PlaylistRepository()
-        {
-            Playlist = new()
-            {
-                new Song("test1", "test1"),
-                new Song("test2", "test2"),
-                new Song("test3", "test3")
-
-            };
-        }
+        { }
 
         public IEnumerable<Song> GetSongsInQueue()
         {
@@ -28,7 +20,8 @@ namespace PitRadio.Api.Data.Repository
 
         public void AddSongToQueue(Song song)
         {
-            Playlist.Add(song);
+            if (!(string.IsNullOrWhiteSpace(song.Title) || string.IsNullOrWhiteSpace(song.File)))
+                Playlist.Add(song);
         }
     }
 }
