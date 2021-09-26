@@ -1,4 +1,5 @@
-﻿using PitRadio.Api.Data.Model;
+﻿using System;
+using PitRadio.Api.Data.Model;
 using System.Collections.Generic;
 
 namespace PitRadio.Api.Data.Repository
@@ -11,9 +12,9 @@ namespace PitRadio.Api.Data.Repository
         {
             Playlist = new()
             {
-                new Song("test1", "test1"),
-                new Song("test2", "test2"),
-                new Song("test3", "test3")
+                new Song("test1", "test1", Guid.NewGuid().ToString()),
+                new Song("test2", "test2", Guid.NewGuid().ToString()),
+                new Song("test3", "test3", Guid.NewGuid().ToString())
             };
         }
 

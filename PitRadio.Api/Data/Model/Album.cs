@@ -5,9 +5,9 @@ namespace PitRadio.Api.Data.Model
 {
     public class Album
     {
-        public Album(string title, ushort year, string artist, string folder, IEnumerable<Song> songs)
+        public Album(string uuid, string title, ushort year, string artist, string folder, IEnumerable<Song> songs)
         {
-            UUID = Guid.NewGuid().ToString();
+            UUID = uuid;
             Title = title;
             Year = year;
             Artist = artist;

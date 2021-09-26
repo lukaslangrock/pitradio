@@ -4,9 +4,9 @@ namespace PitRadio.Api.Data.Model
 {
     public class Song
     {
-        public Song(string title, string file)
+        public Song(string uuid, string title, string file)
         {
-            UUID = Guid.NewGuid().ToString();
+            UUID = uuid;
             Title = title;
             File = file;
         }
