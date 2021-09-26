@@ -81,22 +81,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<bool?> _pressed = [];
   bool enableVoteSwipe = false;
 
-  @override
-  void initState() {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return NameDialog(
-            onEnter: (name) {
-              _name = name;
-            },
-          );
-        },
-      );
-    });
-  }
-
   void _addSong(Song song) {
     setState(() {
       _count += 1;
