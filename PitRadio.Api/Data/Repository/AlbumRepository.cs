@@ -30,8 +30,6 @@ namespace PitRadio.Api.Data.Repository
         public Album GetAlbumBySongUUID(string uuid)
         {
             return _albums.FirstOrDefault(album => album.Songs.FirstOrDefault(song => song.UUID == uuid) != default(Song));
-<<<<<<< HEAD
-=======
         }
 
         public Album GetAlbumByAlbumName(string name)
@@ -60,7 +58,6 @@ namespace PitRadio.Api.Data.Repository
         {
             Album temp = _albums.FirstOrDefault(album => album.Songs.FirstOrDefault(song => song.UUID == uuid) != default(Song));
             return temp.Songs.FirstOrDefault(album => album.UUID == uuid);
->>>>>>> d781e3f683cd2be829ed8dd0bda3b7f201feb675
         }
     }
 }
