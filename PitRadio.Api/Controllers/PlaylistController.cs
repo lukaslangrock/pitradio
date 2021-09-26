@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PitRadio.Api.Data.Model;
-using System;
+using PitRadio.Api.Data.Repository;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace PitRadio.Api.Controllers
 {
@@ -13,28 +10,32 @@ namespace PitRadio.Api.Controllers
     [ApiController]
     public class PlaylistController : ControllerBase
     {
-        private Queue<Song> Playlist { get; set; } = new Queue<Song>(new[] { new Song("test1", "test1"), new Song("test2", "test2"), new Song("test3", "test3") });
+        private readonly IPlaylistRepository _playlistRepository;
+        private readonly IAlbumRepository _albumRepository;
 
-        public PlaylistController()
-        { }
+        public PlaylistController(IPlaylistRepository playlistRepository, IAlbumRepository albumRepository)
+        {
+            _playlistRepository = playlistRepository;
+            _albumRepository = albumRepository;
+        }
 
         [HttpGet(nameof(GetSongsInQueue))]
         public IEnumerable<Song> GetSongsInQueue()
         {
-            return Playlist.AsEnumerable();
+            return _playlistRepository.GetSongsInQueue();
         }
 
         [HttpGet(nameof(GetCurrentSong))]
         public Song GetCurrentSong()
         {
-            return Playlist.FirstOrDefault();
+            return _playlistRepository.GetSongsInQueue().FirstOrDefault();
         }
 
         [HttpPost(nameof(AddSongToQueue))]
-        public IEnumerable<Song> AddSongToQueue(Song song)
+        public IEnumerable<Song> AddSongToQueue(string uuid)
         {
-            Playlist.Enqueue(song);
-            return Playlist;
+            _playlistRepository.AddSongToQueue(_albumRepository.GetSongBySongUUID(uuid));
+            return _playlistRepository.GetSongsInQueue();
         }
     }
 }

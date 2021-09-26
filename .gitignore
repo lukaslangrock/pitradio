@@ -4,6 +4,7 @@
 **/bin
 **/obj
 ### VisualStudioCode ###
+**/.vscode/
 **/.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -411,3 +412,6 @@ FodyWeavers.xsd
 
 # ignore obj/
 **/obj/
+
+# ignore files for musicdb
+**/musicdb/

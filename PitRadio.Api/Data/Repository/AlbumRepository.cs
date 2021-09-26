@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PitRadio.Api.Data.Repository
 {
@@ -23,9 +22,42 @@ namespace PitRadio.Api.Data.Repository
             return _albums;
         }
 
-        public Album GetAlbumBySong(string songname)
+        public Album GetAlbumBySongName(string name)
         {
-            return _albums.FirstOrDefault(album => album.Songs.FirstOrDefault(song => song.Title == songname) != default(Song));
+            return _albums.FirstOrDefault(album => album.Songs.FirstOrDefault(song => song.Title == name) != default(Song));
+        }
+
+        public Album GetAlbumBySongUUID(string uuid)
+        {
+            return _albums.FirstOrDefault(album => album.Songs.FirstOrDefault(song => song.UUID == uuid) != default(Song));
+        }
+
+        public Album GetAlbumByAlbumName(string name)
+        {
+            return _albums.FirstOrDefault(album => album.Title == name);
+        }
+
+        public Album GetAlbumByAlbumUUID(string uuid)
+        {
+            return _albums.FirstOrDefault(album => album.UUID == uuid);
+        }
+
+        public byte[] GetAlbumArtworkByAlbumName(string name)
+        {
+            Album album = GetAlbumByAlbumName(name);
+            return File.ReadAllBytes(Path.Join(Environment.CurrentDirectory, "Resources", "musicdb", album.Folder, "cover.jpg"));
+        }
+
+        public byte[] GetAlbumArtworkByAlbumUUID(string uuid)
+        {
+            Album album = GetAlbumByAlbumUUID(uuid);
+            return File.ReadAllBytes(Path.Join(Environment.CurrentDirectory, "Resources", "musicdb", album.Folder, "cover.jpg"));
+        }
+
+        public Song GetSongBySongUUID(string uuid)
+        {
+            Album temp = _albums.FirstOrDefault(album => album.Songs.FirstOrDefault(song => song.UUID == uuid) != default(Song));
+            return temp.Songs.FirstOrDefault(album => album.UUID == uuid);
         }
     }
 }

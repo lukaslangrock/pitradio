@@ -1,149 +1,178 @@
 ﻿[
   {
-    "title": "Ideas",
-    "year": 2020,
-    "artist": "Au/Ra",
-    "folder": "aura_ideas_2020",
-    "songs": [
+    "UUID": "9e8d8808-e2d9-4466-80ba-dd5cc1e1243f",
+    "Title": "Ideas",
+    "Year": 2020,
+    "Artist": "Au/Ra",
+    "Folder": "aura_ideas_2020",
+    "Songs": [
       {
-        "title": "Ideas",
-        "file": "01_ideas.opus"
+        "UUID": "2e8e2e7a-bfef-497e-8de0-2d82739aecee",
+        "Title": "Ideas",
+        "File": "01_ideas.opus"
       }
     ]
   },
   {
-    "title": "Out of the Blue",
-    "year": 2012,
-    "artist": "Electric Light Orchestra",
-    "folder": "clectriclightorchestra_mrbluesky_2012",
-    "songs": [
+    "UUID": "906a9c3e-c950-4bfe-aca2-8bd3ee55abf7",
+    "Title": "Out of the Blue",
+    "Year": 2012,
+    "Artist": "Electric Light Orchestra",
+    "Folder": "clectriclightorchestra_mrbluesky_2012",
+    "Songs": [
       {
-        "title": "Mr. Blue Sky",
-        "file": "01_mr_blue_sky.opus"
+        "UUID": "a58a772a-9251-4045-84b5-7d6be6e22ecb",
+        "Title": "Mr. Blue Sky",
+        "File": "01_mr_blue_sky.opus"
       }
     ]
   },
   {
-    "title": "Fukashigi no Karte",
-    "year": 2018,
-    "artist": "Mai Sakurajima",
-    "folder": "maisakurajima_fukashiginocarte(不可思議のカルテ)_2018",
-    "songs": [
+    "UUID": "2c8090a5-7802-4461-9df2-c66096f14e3e",
+    "Title": "Fukashigi no Karte",
+    "Year": 2018,
+    "Artist": "Mai Sakurajima",
+    "Folder": "maisakurajima_fukashiginocarte(不可思議のカルテ)_2018",
+    "Songs": [
       {
-        "title": "Fukashigi no Karte",
-        "file": "01_不可思議のカルテ.opus"
+        "UUID": "c1b7cff5-0220-4c2d-ac41-e87407aa8920",
+        "Title": "Fukashigi no Karte",
+        "File": "01_不可思議のカルテ.opus"
       }
     ]
   },
   {
-    "title": "KISS OF DEATH (Produced by HYDE)",
-    "year": 2018,
-    "artist": "Mika Nakashima",
-    "folder": "mikanakashima_kissofdeath_2018",
-    "songs": [
+    "UUID": "64589c69-32c4-44a0-ba73-addd92c1a11a",
+    "Title": "KISS OF DEATH (Produced by HYDE)",
+    "Year": 2018,
+    "Artist": "Mika Nakashima",
+    "Folder": "mikanakashima_kissofdeath_2018",
+    "Songs": [
       {
-        "title": "KISS OF DEATH",
-        "file": "01_kiss_of_death.opus"
+        "UUID": "99f47be9-22e7-468c-93fa-4b8be72be0a2",
+        "Title": "KISS OF DEATH",
+        "File": "01_kiss_of_death.opus"
       }
     ]
   },
   {
-    "title": "Supernatural Mobs",
-    "year": 2013,
-    "artist": "TheAtlanticCraft",
-    "folder": "theatlanticcraft_supernaturalmobs_2013",
-    "songs": [
+    "UUID": "261d0b3c-7834-4042-9fa2-b07e99efa9e5",
+    "Title": "Supernatural Mobs",
+    "Year": 2013,
+    "Artist": "TheAtlanticCraft",
+    "Folder": "theatlanticcraft_supernaturalmobs_2013",
+    "Songs": [
       {
-        "title": "Supernatural Mobs",
-        "file": "01_supernatural_mobs.opus"
+        "UUID": "b1f99446-e2aa-4924-a209-3ad5a95ae282",
+        "Title": "Supernatural Mobs",
+        "File": "01_supernatural_mobs.opus"
       }
     ]
   },
   {
-    "title": "Fly Away",
-    "year": 2017,
-    "artist": "TheFatRat",
-    "folder": "thefatrat_flyaway_2017",
-    "songs": [
+    "UUID": "a4b1b2f9-08ea-406f-a4ab-9647d788093c",
+    "Title": "Fly Away",
+    "Year": 2017,
+    "Artist": "TheFatRat",
+    "Folder": "thefatrat_flyaway_2017",
+    "Songs": [
       {
-        "title": "Fly Away",
-        "file": "01_fly_away.opus"
+        "UUID": "65c72b9c-4cd7-4f1f-9b3c-ce468a6dcf01",
+        "Title": "Fly Away",
+        "File": "01_fly_away.opus"
       }
     ]
   },
   {
-    "title": "Unity",
-    "year": 2017,
-    "artist": "TheFatRat",
-    "folder": "thefatrat_unity_2015",
-    "songs": [
+    "UUID": "a897234c-e6bf-4baf-8270-bd5ce858bcc2",
+    "Title": "Unity",
+    "Year": 2017,
+    "Artist": "TheFatRat",
+    "Folder": "thefatrat_unity_2015",
+    "Songs": [
       {
-        "title": "Unity",
-        "file": "01_unity.opus"
+        "UUID": "77be8304-842a-4ef5-b486-65a5a67fe629",
+        "Title": "Unity",
+        "File": "01_unity.opus"
       }
     ]
   },
   {
-    "title": "After Hours",
-    "year": 2020,
-    "artist": "The Weeknd",
-    "folder": "theweekend_afterhours_2020",
-    "songs": [
+    "UUID": "c7fac022-7da2-4e43-9304-06719a56b159",
+    "Title": "After Hours",
+    "Year": 2020,
+    "Artist": "The Weeknd",
+    "Folder": "theweekend_afterhours_2020",
+    "Songs": [
       {
-        "title": "Alone Again",
-        "file": "01_alone_again.opus"
+        "UUID": "f91b9dd3-64fb-4c0b-94cc-7d6e1b8ee77a",
+        "Title": "Alone Again",
+        "File": "01_alone_again.opus"
       },
       {
-        "title": "Too Late",
-        "file": "02_too_late.opus"
+        "UUID": "0fbeed4b-959c-46c7-aa68-16ee99eb1f7e",
+        "Title": "Too Late",
+        "File": "02_too_late.opus"
       },
       {
-        "title": "Hardest To Love",
-        "file": "03_hardest_to_love.opus"
+        "UUID": "6be839d7-4422-4af2-801a-e51c2918a4bb",
+        "Title": "Hardest To Love",
+        "File": "03_hardest_to_love.opus"
       },
       {
-        "title": "Scared To Live",
-        "file": "04_scared_to_live.opus"
+        "UUID": "7bb91553-70a7-4820-9432-ed660531bcbc",
+        "Title": "Scared To Live",
+        "File": "04_scared_to_live.opus"
       },
       {
-        "title": "Snowchild",
-        "file": "05_snowchild.opus"
+        "UUID": "95ebee52-dfb0-4589-a161-b068e1a9d5e3",
+        "Title": "Snowchild",
+        "File": "05_snowchild.opus"
       },
       {
-        "title": "Escape From LA",
-        "file": "06_escape_from_la.opus"
+        "UUID": "1a0ce2d5-0478-40ff-8dc8-b62760ef6f3f",
+        "Title": "Escape From LA",
+        "File": "06_escape_from_la.opus"
       },
       {
-        "title": "Heartless",
-        "file": "07_heartless.opus"
+        "UUID": "fc1a43a3-2235-498e-9674-a7814fb6c5ac",
+        "Title": "Heartless",
+        "File": "07_heartless.opus"
       },
       {
-        "title": "Faith",
-        "file": "08_faith.opus"
+        "UUID": "47b5f054-ce87-4fe0-9d51-b882372efe6a",
+        "Title": "Faith",
+        "File": "08_faith.opus"
       },
       {
-        "title": "Blinding Lights",
-        "file": "09_blinding_lights.opus"
+        "UUID": "52facd8c-51e0-4faf-a0fc-0964477678ca",
+        "Title": "Blinding Lights",
+        "File": "09_blinding_lights.opus"
       },
       {
-        "title": "In Your Eyes",
-        "file": "10_in_your_eyes.opus"
+        "UUID": "344938fe-f9a4-492d-a48d-4a7098e06381",
+        "Title": "In Your Eyes",
+        "File": "10_in_your_eyes.opus"
       },
       {
-        "title": "Save Your Tears",
-        "file": "11_save_your_tears.opus"
+        "UUID": "6341c8f6-712e-4918-9673-5afedb81688a",
+        "Title": "Save Your Tears",
+        "File": "11_save_your_tears.opus"
       },
       {
-        "title": "Repeat After Me (Interlude)",
-        "file": "12_repeat_after_me.opus"
+        "UUID": "d9a7671b-08c8-4ca7-b0f9-20dc8bb64e05",
+        "Title": "Repeat After Me (Interlude)",
+        "File": "12_repeat_after_me.opus"
       },
       {
-        "title": "After Hours",
-        "file": "13_after_hours.opus"
+        "UUID": "d679c3ca-3782-4d45-a446-6106676fcf31",
+        "Title": "After Hours",
+        "File": "13_after_hours.opus"
       },
       {
-        "title": "Until I Bleed Out",
-        "file": "14_until_i_bleed_out.opus"
+        "UUID": "7e7593dc-824c-4433-a21c-65bfc3e71d64",
+        "Title": "Until I Bleed Out",
+        "File": "14_until_i_bleed_out.opus"
       }
     ]
   }
