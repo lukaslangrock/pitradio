@@ -10,6 +10,7 @@ namespace PitRadio.Api.Data.Repository
 
         IEnumerable<Song> GetSongsInQueue();
         void AddSongToQueue(Song song);
+        void RemoveFirstSong();
         void AddVoteToFirstSongOccurrence(string uuid, bool vote);
         Song GetFirstSongInQueueByUuid(string uuid);
         bool SkipCurrentSongIfNecessary();

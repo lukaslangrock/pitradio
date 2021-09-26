@@ -25,6 +25,13 @@ namespace PitRadio.Api.Data.Repository
                 Playlist.Add(song);
         }
 
+        public void RemoveFirstSong()
+        {
+            var elem = Playlist.FirstOrDefault();
+            if (elem != default(Song) && elem != null)
+                Playlist.RemoveAt(0);
+        }
+
         public void RemoveSongFromQueueByUuid(string uuid)
         {
             Playlist.Remove(Playlist.First(song => song.UUID == uuid));

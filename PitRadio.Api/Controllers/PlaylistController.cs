@@ -38,6 +38,12 @@ namespace PitRadio.Api.Controllers
             return _playlistRepository.GetSongsInQueue();
         }
 
+        [HttpPost(nameof(NextSong))]
+        public void NextSong()
+        {
+            _playlistRepository.RemoveFirstSong();
+        }
+
         //[HttpPost(nameof(AddVoteToFirstSongOccurrence) + "/{uuid}/{vote}")]
         //public Song AddVoteToFirstSongOccurrence(string uuid, bool vote)
         //{
