@@ -10,7 +10,7 @@ As there are already great guides out there, it would be unnecessary to write a 
 
 If you wish to block access to the host network, just don't set up Routing and IP Masquerading, as described in the article.
 
-In our setup, we used the network `192.168.10.0/24` and used `radio.local` as the router name (as opposed to `gw.wlan`).
+In our setup, we used the network `192.168.10.0/24` and used `pitradio.local` as the router name (as opposed to `gw.wlan`).
 We also set the SSID and passphrase to `pitradio`.
 
 ## Webserver Setup
